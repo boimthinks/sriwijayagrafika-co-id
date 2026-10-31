@@ -1,0 +1,70 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import ArticleListItem from '../../../components/ArticleListItem.astro';
+import { getAllPosts, getAllCategories } from '../../../utils/posts';
+
+export async function getStaticPaths() {
+  const categories = getAllCategories();
+  const allPosts = getAllPosts();
+  const PAGE_SIZE = 10;
+
+  return categories.map((cat) => {
+    const catPosts = allPosts.filter((p) =>
+      p.categories.some((c) => c.slug === cat.slug || c.id === cat.id)
+    );
+    const totalPages = Math.ceil(catPosts.length / PAGE_SIZE);
+
+    return {
+      params: { slug: cat.slug },
+      props: {
+        category: cat,
+        posts: catPosts.slice(0, PAGE_SIZE),
+        totalPosts: catPosts.length,
+        totalPages
+      }
+    };
+  });
+}
+
+const { category, posts, totalPages } = Astro.props;
+const hasNext = totalPages > 1;
+const nextUrl = `/category/${category.slug}/page/2/`;
+---
+
+<Layout
+  title={`Kategori: ${category.name} - Sriwijaya Grafika`}
+  description={`Kumpulan artikel dan portofolio kategori ${category.name} oleh Sriwijaya Grafika Palembang.`}
+  currentPath={`/category/${category.slug}/`}
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          <header class="page-header">
+            <h1 class="page-title">Kategori: <span>{category.name}</span></h1>
+          </header>
+
+          {posts.length === 0 ? (
+            <p>Belum ada artikel dalam kategori ini.</p>
+          ) : (
+            posts.map((post: any) => <ArticleListItem post={post} />)
+          )}
+
+          {hasNext && (
+            <nav class="navigation posts-navigation" aria-label="Pos">
+              <h2 class="screen-reader-text">Navigasi pos</h2>
+              <div class="nav-links">
+                <div class="nav-previous">
+                  <a href={nextUrl}>Pos-pos lama</a>
+                </div>
+              </div>
+            </nav>
+          )}
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>

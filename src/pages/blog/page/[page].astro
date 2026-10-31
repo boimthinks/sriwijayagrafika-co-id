@@ -1,0 +1,69 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import ArticleListItem from '../../../components/ArticleListItem.astro';
+import { getAllPosts } from '../../../utils/posts';
+
+export async function getStaticPaths() {
+  const allPosts = getAllPosts();
+  const PAGE_SIZE = 10;
+  const totalPages = Math.ceil(allPosts.length / PAGE_SIZE);
+
+  const paths = [];
+  for (let p = 2; p <= totalPages; p++) {
+    const start = (p - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    paths.push({
+      params: { page: String(p) },
+      props: {
+        posts: allPosts.slice(start, end),
+        currentPage: p,
+        totalPages
+      }
+    });
+  }
+  return paths;
+}
+
+const { posts, currentPage, totalPages } = Astro.props;
+const prevUrl = currentPage === 2 ? '/blog/' : `/blog/page/${currentPage - 1}/`;
+const nextUrl = currentPage < totalPages ? `/blog/page/${currentPage + 1}/` : null;
+---
+
+<Layout
+  title={`Blog - Halaman ${currentPage} - Sriwijaya Grafika`}
+  description="Artikel, informasi, dan edukasi seputar advertising, huruf timbul, neon box, reklame, dan percetakan di Palembang."
+  currentPath={`/blog/page/${currentPage}/`}
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          <header>
+            <h1 class="page-title screen-reader-text">Blog</h1>
+          </header>
+
+          {posts.map((post: any) => (
+            <ArticleListItem post={post} />
+          ))}
+
+          <nav class="navigation posts-navigation" aria-label="Pos">
+            <h2 class="screen-reader-text">Navigasi pos</h2>
+            <div class="nav-links">
+              {nextUrl && (
+                <div class="nav-previous">
+                  <a href={nextUrl}>Pos-pos lama</a>
+                </div>
+              )}
+              <div class="nav-next">
+                <a href={prevUrl}>Pos-pos baru</a>
+              </div>
+            </div>
+          </nav>
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>

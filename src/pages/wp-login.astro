@@ -1,0 +1,135 @@
+---
+// Halaman Login WordPress 1:1 Menggunakan Aset dan Tata Letak Resmi
+---
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Log Masuk &lsaquo; Sriwijaya Grafika &#8212; WordPress</title>
+  <meta name="robots" content="noindex, follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-32x32.jpg" sizes="32x32" />
+  <link rel="icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-192x192.jpg" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-180x180.jpg" />
+
+  <!-- WordPress Core Login Styles -->
+  <link rel="stylesheet" href="/wp-admin/css/dashicons.min.css" media="all" />
+  <link rel="stylesheet" href="/wp-admin/css/buttons.min.css" media="all" />
+  <link rel="stylesheet" href="/wp-admin/css/forms.min.css" media="all" />
+  <link rel="stylesheet" href="/wp-admin/css/login.min.css" media="all" />
+
+  <style is:global>
+    /* Menggunakan logo resmi WordPress SVG biru yang tajam & presisi */
+    body.login h1.wp-login-logo a {
+      background-image: url('/wp-admin/images/w-logo-blue.png') !important;
+      background-image: none, url('/wp-admin/images/wordpress-logo.svg') !important;
+      background-size: 84px !important;
+      background-position: center top !important;
+      background-repeat: no-repeat !important;
+      width: 84px !important;
+      height: 84px !important;
+      margin: 0 auto 25px !important;
+      display: block !important;
+      text-indent: -9999px !important;
+      overflow: hidden !important;
+    }
+    .login form {
+      margin-top: 20px;
+      margin-left: 0;
+      padding: 26px 24px 34px;
+      font-weight: 400;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid #c3c4c7;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+<body class="login no-js login-action-login wp-core-ui admin-color-modern locale-id-id">
+  <script is:inline>
+    document.body.className = document.body.className.replace('no-js', 'js');
+  </script>
+
+  <h1 class="screen-reader-text">Log Masuk</h1>
+  <div id="login">
+    <h1 role="presentation" class="wp-login-logo">
+      <a href="https://wordpress.org/">Dipersembahkan oleh WordPress</a>
+    </h1>
+
+    <form name="loginform" id="loginform" onsubmit="handleLoginSubmit(event)" method="post">
+      <p>
+        <label for="user_login">Nama Pengguna atau Alamat Email</label>
+        <input type="text" name="log" id="user_login" class="input ltr" value="" size="20" autocapitalize="off" autocomplete="username" required="required" autofocus />
+      </p>
+
+      <div class="user-pass-wrap">
+        <label for="user_pass">Sandi</label>
+        <div class="wp-pwd">
+          <input type="password" name="pwd" id="user_pass" class="input password-input ltr" value="" size="20" autocomplete="current-password" spellcheck="false" required="required" />
+          <button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" id="togglePasswordBtn" aria-label="Tampilkan sandi" onclick="togglePasswordVisibility()">
+            <span class="dashicons dashicons-visibility" id="toggleIcon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+      <p class="forgetmenot">
+        <input name="rememberme" type="checkbox" id="rememberme" value="forever" />
+        <label for="rememberme">Ingat Saya</label>
+      </p>
+
+      <p class="submit">
+        <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log Masuk" />
+      </p>
+    </form>
+
+    <p id="nav">
+      <a class="wp-login-lost-password" href="javascript:void(0)" onclick="alert('Layanan pemulihan kata sandi dinonaktifkan.');">Lupa sandi Anda?</a>
+    </p>
+
+    <p id="backtoblog">
+      <a href="/">&larr; Pergi ke Sriwijaya Grafika</a>
+    </p>
+  </div>
+
+  <div class="language-switcher">
+    <form id="language-switcher" onsubmit="event.preventDefault();">
+      <label for="language-switcher-locales">
+        Bahasa<span class="dashicons dashicons-translation" aria-hidden="true"></span>
+      </label>
+      <select name="wp_lang" id="language-switcher-locales">
+        <option value="id_ID" selected="selected">Bahasa Indonesia</option>
+        <option value="en_US">English (United States)</option>
+      </select>
+      <input type="button" class="button" value="Ubah" onclick="alert('Pengaturan bahasa sudah aktif.');" />
+    </form>
+  </div>
+
+  <script is:inline>
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+      alert('Anda tidak diizinkan Login');
+      const passField = document.getElementById('user_pass');
+      if (passField) {
+        passField.value = '';
+        passField.focus();
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const passField = document.getElementById('user_pass');
+      const toggleIcon = document.getElementById('toggleIcon');
+      if (!passField || !toggleIcon) return;
+      if (passField.type === 'password') {
+        passField.type = 'text';
+        toggleIcon.classList.remove('dashicons-visibility');
+        toggleIcon.classList.add('dashicons-hidden');
+      } else {
+        passField.type = 'password';
+        toggleIcon.classList.remove('dashicons-hidden');
+        toggleIcon.classList.add('dashicons-visibility');
+      }
+    }
+  </script>
+</body>
+</html>

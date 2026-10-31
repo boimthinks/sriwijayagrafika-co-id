@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { getAllPosts, getAllPages, formatDateIndo } from '../utils/posts';
+
+export async function getStaticPaths() {
+  const allPosts = getAllPosts();
+  const allPages = getAllPages();
+
+  const postPaths = allPosts.map((post, index) => {
+    const prevPost = index < allPosts.length - 1 ? allPosts[index + 1] : null;
+    const nextPost = index > 0 ? allPosts[index - 1] : null;
+
+    return {
+      params: { slug: post.slug },
+      props: {
+        isPage: false,
+        item: post,
+        prevPost,
+        nextPost
+      }
+    };
+  });
+
+  // Pages to exclude because they have dedicated routes:
+  // - homepage: jasa-percetakan-dan-advertising-palembang-murah-dan-berkualitas
+  // - blog: blog
+  const pagePaths = allPages
+    .filter(
+      (page) =>
+        page.slug !== 'blog' &&
+        page.slug !== 'jasa-percetakan-dan-advertising-palembang-murah-dan-berkualitas'
+    )
+    .map((page) => ({
+      params: { slug: page.slug },
+      props: {
+        isPage: true,
+        item: page,
+        prevPost: null,
+        nextPost: null
+      }
+    }));
+
+  return [...postPaths, ...pagePaths];
+}
+
+const { isPage, item, prevPost, nextPost } = Astro.props;
+const cleanExcerpt = item.excerpt ? item.excerpt.replace(/<[^>]+>/g, '').trim() : '';
+const description = cleanExcerpt.slice(0, 160) || `${item.title} - Sriwijaya Grafika Palembang`;
+---
+
+<Layout
+  title={`${item.title} - Sriwijaya Grafika`}
+  description={description}
+  image={item.featured_image || '/wp-content/uploads/2020/08/SG-LOGO.png'}
+  type={isPage ? 'website' : 'article'}
+  currentPath={`/${item.slug}/`}
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          {isPage ? (
+            <article id={`post-${item.id}`} class="page type-page status-publish has-post-thumbnail hentry">
+              <header class="entry-header">
+                <h1 class="entry-title">{item.title}</h1>
+              </header>
+
+              <div class="entry-content" set:html={item.content} />
+            </article>
+          ) : (
+            <article id={`post-${item.id}`} class="post type-post status-publish format-standard has-post-thumbnail hentry">
+              {item.featured_image && (
+                <div class="entry-summary">
+                  <img
+                    width="825"
+                    height="510"
+                    src={item.featured_image}
+                    class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                    alt={item.title}
+                  />
+                </div>
+              )}
+
+              <header class="entry-header">
+                <h1 class="entry-title">{item.title}</h1>
+                <div class="entry-meta">
+                  <span class="posted-on">
+                    Posted on <a href={`/${item.slug}/`} rel="bookmark"><time class="entry-date published">{formatDateIndo(item.date)}</time></a>
+                  </span>
+                  <span class="byline">
+                    by <span class="author vcard"><a class="url fn n" href="/sriwijaya-grafika-advertising-palembang/">Sriwijaya Grafika</a></span>
+                  </span>
+                </div>
+              </header>
+
+              <div class="entry-content" set:html={item.content} />
+
+              <footer class="entry-footer">
+                {item.categories && item.categories.length > 0 && (
+                  <span class="cat-links">
+                    Posted in{' '}
+                    {item.categories.map((c: any, i: number) => (
+                      <span>
+                        <a href={`/category/${c.slug}/`} rel="category tag">{c.name}</a>
+                        {i < item.categories.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
+                  </span>
+                )}
+              </footer>
+            </article>
+
+            <nav class="navigation post-navigation" aria-label="Pos">
+              <h2 class="screen-reader-text">Navigasi pos</h2>
+              <div class="nav-links">
+                {prevPost && (
+                  <div class="nav-previous">
+                    <a href={`/${prevPost.slug}/`} rel="prev">{prevPost.title}</a>
+                  </div>
+                )}
+                {nextPost && (
+                  <div class="nav-next">
+                    <a href={`/${nextPost.slug}/`} rel="next">{nextPost.title}</a>
+                  </div>
+                )}
+              </div>
+            </nav>
+          )}
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>

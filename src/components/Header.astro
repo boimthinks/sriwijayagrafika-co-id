@@ -1,0 +1,114 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<div class="container-fluid header_main">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-lg-6 col-xs-12 leads">
+				<h1 class="pull-left">Advertising Palembang</h1>
+			</div>
+			<div class="col-sm-6 col-lg-6 col-xs-12 icon_menu">
+				<ul>
+					<li class="social-icon facebook"><a href="https://facebook.com/sriwijayagrafika" target="_blank" rel="noopener"><span class="fa fa-facebook"></span></a></li>
+					<li>(0711) – 561 4793</li>
+				</ul>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<div class="container seo-header-wrap">
+	<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<div class="row">
+			<header id="masthead" class="site-header" role="banner">
+				<div class="col-sm-3 logo-site">
+					<div class="site-branding">
+						<a href="/" class="custom-logo-link" rel="home">
+							<img width="248" height="37" src="/wp-content/uploads/2020/08/SG-LOGO.png" class="custom-logo" alt="Sriwijaya Grafika" decoding="async" />
+						</a>
+						<p class="site-title"><a href="/" rel="home">Sriwijaya Grafika</a></p>
+						<p class="site-description">Vendor Advertising Palembang. Membuat Neon Box, Huruf Timbul, Rambu Parkir/APD/K3/Rambu Keselamatan, Plang Toko/Kantor, Pylon, Acrylic, dll</p>
+					</div><!-- .site-branding -->
+				</div>
+				<div class="col-sm-9 nav-section">
+					<nav id="site-navigation" class="main-navigation" role="navigation">
+						<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false" id="menu-toggle-btn">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<div class="seo-main-nav" id="main-nav-container">
+							<ul id="primary-menu" class="menu">
+								<li class={`menu-item menu-item-type-custom menu-item-object-custom ${currentPath === '/' ? 'current-menu-item current_page_item menu-item-home' : ''}`}>
+									<a href="/">HOME</a>
+								</li>
+								<li class={`menu-item menu-item-type-custom menu-item-object-custom ${currentPath.startsWith('/blog') ? 'current-menu-item' : ''}`}>
+									<a href="/blog/">ARTIKEL</a>
+								</li>
+								<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+									<a href="#">TENTANG KAMI</a>
+									<ul class="sub-menu">
+										<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/sriwijaya-grafika-advertising-palembang/">SRIWIJAYA GRAFIKA</a></li>
+										<li class="menu-item menu-item-type-taxonomy menu-item-object-category"><a href="/category/liputan/">LIPUTAN</a></li>
+										<li class="menu-item menu-item-type-post_type menu-item-object-post"><a href="/video-sriwijaya-grafika/">VIDEO LIPUTAN</a></li>
+									</ul>
+								</li>
+								<li class={`menu-item menu-item-type-custom menu-item-object-custom ${currentPath.startsWith('/kontak-dan-alamat') ? 'current-menu-item' : ''}`}>
+									<a href="/kontak-dan-alamat/">KONTAK</a>
+								</li>
+								<li class={`menu-item menu-item-type-taxonomy menu-item-object-category ${currentPath.startsWith('/category/portofolio') ? 'current-menu-item' : ''}`}>
+									<a href="/category/portofolio/">PORTOFOLIO</a>
+								</li>
+							</ul>
+						</div>
+					</nav><!-- #site-navigation --> 
+					
+					<span class="seo-search-icon" id="search-btn"><i class="fa fa-search"></i></span>
+					
+					<div class="seo-search-form" id="search-dropdown" style="display: none;">
+						<form role="search" method="get" class="search-form" action="/search/">
+							<label>
+								<span class="screen-reader-text">Cari untuk:</span>
+								<input type="search" class="search-field" placeholder="Cari &hellip;" value="" name="q" />
+							</label>
+							<input type="submit" class="search-submit" value="Cari" />
+						</form>
+					</div>
+				</div>
+			</header><!-- #masthead -->
+		</div>
+	</div> <!--  #page end -->
+</div> <!-- container end -->
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchBtn = document.getElementById('search-btn');
+    const searchDropdown = document.getElementById('search-dropdown');
+    if (searchBtn && searchDropdown) {
+      searchBtn.addEventListener('click', () => {
+        if (searchDropdown.style.display === 'none' || !searchDropdown.style.display) {
+          searchDropdown.style.display = 'block';
+        } else {
+          searchDropdown.style.display = 'none';
+        }
+      });
+    }
+
+    const menuToggle = document.getElementById('menu-toggle-btn');
+    const navContainer = document.getElementById('main-nav-container');
+    if (menuToggle && navContainer) {
+      menuToggle.addEventListener('click', () => {
+        navContainer.classList.toggle('toggled');
+        const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+        menuToggle.setAttribute('aria-expanded', !expanded);
+      });
+    }
+  });
+</script>

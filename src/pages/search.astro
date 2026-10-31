@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { getAllPosts } from '../utils/posts';
+
+const allPosts = getAllPosts().map(p => ({
+  id: p.id,
+  title: p.title,
+  slug: p.slug,
+  excerpt: p.excerpt.replace(/<[^>]+>/g, '').slice(0, 150),
+  categories: p.categories
+}));
+---
+
+<Layout
+  title="Hasil Pencarian - Sriwijaya Grafika"
+  description="Pencarian artikel dan layanan di Sriwijaya Grafika Palembang."
+  currentPath="/search/"
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          <header class="page-header">
+            <h1 class="page-title">Hasil Pencarian: <span id="search-query-display"></span></h1>
+          </header>
+
+          <div id="search-results-list">
+            <p>Memuat hasil pencarian...</p>
+          </div>
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ allPosts }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const q = (params.get('q') || params.get('s') || '').trim().toLowerCase();
+    
+    const queryDisplay = document.getElementById('search-query-display');
+    const container = document.getElementById('search-results-list');
+    
+    if (queryDisplay) queryDisplay.textContent = q ? `"${q}"` : 'Semua';
+
+    if (!container) return;
+
+    if (!q) {
+      container.innerHTML = '<p>Silakan masukkan kata kunci pencarian.</p>';
+      return;
+    }
+
+    const matches = allPosts.filter(p => 
+      p.title.toLowerCase().includes(q) || 
+      p.excerpt.toLowerCase().includes(q)
+    );
+
+    if (matches.length === 0) {
+      container.innerHTML = '<p>Maaf, tidak ada artikel yang cocok dengan kata kunci tersebut.</p>';
+      return;
+    }
+
+    container.innerHTML = matches.map(p => `
+      <article class="post type-post status-publish format-standard hentry" style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <header class="entry-header">
+          <h2 class="entry-title"><a href="/${p.slug}/">${p.title}</a></h2>
+        </header>
+        <div class="entry-content">
+          <p>${p.excerpt}...</p>
+          <p class="link-more"><a href="/${p.slug}/" class="more-link">Baca Selengkapnya &rarr;</a></p>
+        </div>
+      </article>
+    `).join('');
+  });
+</script>

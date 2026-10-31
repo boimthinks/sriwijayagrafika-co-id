@@ -1,0 +1,80 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import Sidebar from '../../../../components/Sidebar.astro';
+import ArticleListItem from '../../../../components/ArticleListItem.astro';
+import { getAllPosts, getAllCategories } from '../../../../utils/posts';
+
+export async function getStaticPaths() {
+  const categories = getAllCategories();
+  const allPosts = getAllPosts();
+  const PAGE_SIZE = 10;
+  const paths = [];
+
+  for (const cat of categories) {
+    const catPosts = allPosts.filter((p) =>
+      p.categories.some((c) => c.slug === cat.slug || c.id === cat.id)
+    );
+    const totalPages = Math.ceil(catPosts.length / PAGE_SIZE);
+
+    if (totalPages > 1) {
+      for (let p = 2; p <= totalPages; p++) {
+        const start = (p - 1) * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        paths.push({
+          params: { slug: cat.slug, page: String(p) },
+          props: {
+            category: cat,
+            posts: catPosts.slice(start, end),
+            currentPage: p,
+            totalPages
+          }
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const { category, posts, currentPage, totalPages } = Astro.props;
+const prevUrl = currentPage === 2 ? `/category/${category.slug}/` : `/category/${category.slug}/page/${currentPage - 1}/`;
+const nextUrl = currentPage < totalPages ? `/category/${category.slug}/page/${currentPage + 1}/` : null;
+---
+
+<Layout
+  title={`Kategori: ${category.name} - Halaman ${currentPage} - Sriwijaya Grafika`}
+  description={`Kumpulan artikel dan portofolio kategori ${category.name} oleh Sriwijaya Grafika Palembang.`}
+  currentPath={`/category/${category.slug}/page/${currentPage}/`}
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          <header class="page-header">
+            <h1 class="page-title">Kategori: <span>{category.name}</span></h1>
+          </header>
+
+          {posts.map((post: any) => (
+            <ArticleListItem post={post} />
+          ))}
+
+          <nav class="navigation posts-navigation" aria-label="Pos">
+            <h2 class="screen-reader-text">Navigasi pos</h2>
+            <div class="nav-links">
+              {nextUrl && (
+                <div class="nav-previous">
+                  <a href={nextUrl}>Pos-pos lama</a>
+                </div>
+              )}
+              <div class="nav-next">
+                <a href={prevUrl}>Pos-pos baru</a>
+              </div>
+            </div>
+          </nav>
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>

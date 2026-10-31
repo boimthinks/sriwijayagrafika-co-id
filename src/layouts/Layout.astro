@@ -1,0 +1,134 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  currentPath?: string;
+}
+
+const {
+  title = 'Jasa Reklame dan Advertising Palembang - Murah dan berkualitas',
+  description = 'Vendor Advertising Palembang. Membuat Neon Box, Huruf Timbul, Rambu Parkir/APD/K3/Rambu Keselamatan, Plang Toko/Kantor, Pylon, Acrylic, dll',
+  image = '/wp-content/uploads/2020/08/SG-LOGO.png',
+  type = 'website',
+  currentPath = Astro.url.pathname
+} = Astro.props;
+
+const canonicalUrl = new URL(currentPath, 'https://sriwijayagrafika.co.id').href;
+---
+
+<!doctype html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{title}</title>
+	<meta name="description" content={description} />
+	<link rel="canonical" href={canonicalUrl} />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content={type} />
+	<meta property="og:url" content={canonicalUrl} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	<meta property="og:image" content={image.startsWith('http') ? image : `https://sriwijayagrafika.co.id${image}`} />
+
+	<!-- Favicons -->
+	<link rel="icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-32x32.jpg" sizes="32x32" />
+	<link rel="icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-192x192.jpg" sizes="192x192" />
+	<link rel="apple-touch-icon" href="/wp-content/uploads/2020/08/cropped-SRIWIJAYA-GRAFIKA-1-180x180.jpg" />
+
+	<!-- Google Fonts Raleway -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" />
+
+	<!-- Theme Stylesheets -->
+	<link rel="stylesheet" href="/wp-content/themes/seofication/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/wp-content/themes/seofication/css/font-awesome-4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="/wp-content/themes/seofication/style.css" />
+
+	<style is:global>
+		/* Custom style adjustments for 1:1 fidelity and clean responsiveness */
+		.site-branding .site-title,
+		.site-branding .site-description {
+			position: absolute;
+			clip: rect(1px, 1px, 1px, 1px);
+			overflow: hidden;
+			height: 1px;
+			width: 1px;
+		}
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+		.entry-content img {
+			margin: 10px 0;
+		}
+		.entry-content iframe {
+			max-width: 100%;
+		}
+		.nav-section {
+			position: relative;
+		}
+		.seo-search-form {
+			position: absolute;
+			right: 15px;
+			top: 100%;
+			background: #fff;
+			padding: 10px;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+			z-index: 999;
+			border: 1px solid #ddd;
+		}
+		.seo-search-icon {
+			cursor: pointer;
+		}
+		.main-navigation ul li.menu-item-has-children {
+			position: relative;
+		}
+		.main-navigation ul li.menu-item-has-children:hover > ul.sub-menu {
+			display: block;
+		}
+		@media (max-width: 767px) {
+			.seo-main-nav {
+				display: none;
+			}
+			.seo-main-nav.toggled {
+				display: block;
+			}
+			.seo-main-nav ul {
+				display: block;
+				background: #222;
+				padding: 10px 0;
+			}
+			.seo-main-nav ul li {
+				display: block;
+				float: none;
+			}
+			.seo-main-nav ul li a {
+				color: #fff;
+				padding: 10px 20px;
+				display: block;
+			}
+			.seo-main-nav ul li ul.sub-menu {
+				position: static;
+				display: block;
+				background: #333;
+				box-shadow: none;
+			}
+		}
+	</style>
+</head>
+<body class="wp-custom-logo wp-theme-seofication">
+	<Header currentPath={currentPath} />
+	
+	<slot />
+
+	<Footer />
+	<WhatsAppButton />
+</body>
+</html>

@@ -1,0 +1,35 @@
+Halo Pak/Mas,
+
+Saya ingin menyampaikan komplain terkait hasil audit website sriwijayagrafika.co.id.
+
+Setelah kami lakukan audit menyeluruh terhadap 108 artikel dan halaman website, kami menemukan total 93 BACKLINK LIAR / TAUTAN KELUAR yang sengaja ditanam di dalam teks artikel ke website lain tanpa izin.
+
+Berikut ringkasan temuan domain yang ditanam:
+
+1. juru.website (44 TAUTAN)
+Ditanam di 44 artikel berbeda dengan membajak kata umum seperti "Jasa", "Palembang", "branding", "solusinya", "desainnya", "Bisnis di Palembang", dll.
+
+2. pilihan.co.id (3 TAUTAN)
+Menempel pada kata "tenda jualan", "Palembang", dan "Indonesia".
+
+3. tendalipat.dipalembang.info (1 TAUTAN)
+Menempel pada kata "terpal" di artikel Billboard.
+
+4. kostmurah.dipalembang.info (1 TAUTAN)
+Menempel pada kata "kost bulanan" di artikel Billboard.
+
+5. astrosynergy.com (1 TAUTAN)
+Menempel pada artikel Huruf Timbul 3D Letter Reklame.
+
+6. Dummy & Tautan Asal (4 TAUTAN)
+Layanan resmi "Jasa Advertising Baturaja" sengaja diarahkan ke google.co.id, dan link dummy test.com.
+
+7. Tautan Facebook di dalam body teks artikel (35 TAUTAN).
+
+Praktik menanam backlink pihak ketiga / PBN di dalam website klien seperti ini sangat tidak profesional dan merugikan kami:
+- Mengalirkan otoritas SEO (link juice) Sriwijaya Grafika ke website luar secara cuma-cuma.
+- Membahayakan website terkena sanksi Google karena manipulasi backlink spam.
+
+Seluruh 93 bukti tautan (lengkap dengan judul artikel, tanggal terbit, dan kata yang dibajak) sudah kami dokumentasikan secara detail, dan per hari ini semua backlink liar tersebut telah kami bersihkan total dari sistem.
+
+Mohon pertanggungjawaban dan penjelasannya terkait hal ini. Terima kasih.

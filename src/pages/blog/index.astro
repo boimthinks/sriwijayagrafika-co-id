@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import ArticleListItem from '../../components/ArticleListItem.astro';
+import { getAllPosts } from '../../utils/posts';
+
+const allPosts = getAllPosts();
+const PAGE_SIZE = 10;
+const posts = allPosts.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(allPosts.length / PAGE_SIZE);
+const hasNext = totalPages > 1;
+const nextUrl = '/blog/page/2/';
+---
+
+<Layout
+  title="Blog - Sriwijaya Grafika"
+  description="Artikel, informasi, dan edukasi seputar advertising, huruf timbul, neon box, reklame, dan percetakan di Palembang."
+  currentPath="/blog/"
+>
+  <div class="container">
+    <div id="content" class="site-content">
+      <div id="primary" class="content-area col-md-8 col-xs-12">
+        <main id="main" class="site-main" role="main">
+          <header>
+            <h1 class="page-title screen-reader-text">Blog</h1>
+          </header>
+
+          {posts.map((post) => (
+            <ArticleListItem post={post} />
+          ))}
+
+          {hasNext && (
+            <nav class="navigation posts-navigation" aria-label="Pos">
+              <h2 class="screen-reader-text">Navigasi pos</h2>
+              <div class="nav-links">
+                <div class="nav-previous">
+                  <a href={nextUrl}>Pos-pos lama</a>
+                </div>
+              </div>
+            </nav>
+          )}
+        </main>
+      </div>
+
+      <Sidebar />
+    </div>
+  </div>
+</Layout>

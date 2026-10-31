@@ -1,0 +1,54 @@
+---
+import type { Post } from '../utils/posts';
+import { formatDateIndo } from '../utils/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<article id={`post-${post.id}`} class="post type-post status-publish format-standard has-post-thumbnail hentry">
+	{post.featured_image && (
+		<div class="post-thumbnail">
+			<a href={`/${post.slug}/`}>
+				<img
+					width="825"
+					height="510"
+					src={post.featured_image}
+					class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+					alt={post.title}
+					loading="lazy"
+				/>
+			</a>
+		</div>
+	)}
+
+	<header class="entry-header">
+		<h2 class="entry-title"><a href={`/${post.slug}/`} rel="bookmark">{post.title}</a></h2>
+		<div class="entry-meta">
+			<span class="posted-on">Posted on <a href={`/${post.slug}/`} rel="bookmark"><time class="entry-date published">{formatDateIndo(post.date)}</time></a></span>
+			<span class="byline"> by <span class="author vcard"><a class="url fn n" href="/sriwijaya-grafika-advertising-palembang/">Sriwijaya Grafika</a></span></span>
+		</div>
+	</header>
+
+	<div class="entry-content">
+		<div set:html={post.excerpt} />
+		<p class="link-more"><a href={`/${post.slug}/`} class="more-link">Continue reading<span class="screen-reader-text"> “{post.title}”</span></a></p>
+	</div>
+
+	<footer class="entry-footer">
+		{post.categories && post.categories.length > 0 && (
+			<span class="cat-links">
+				Posted in{' '}
+				{post.categories.map((c, i) => (
+					<span>
+						<a href={`/category/${c.slug}/`} rel="category tag">{c.name}</a>
+						{i < post.categories.length - 1 ? ', ' : ''}
+					</span>
+				))}
+			</span>
+		)}
+	</footer>
+</article>

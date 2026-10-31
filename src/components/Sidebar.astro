@@ -1,0 +1,42 @@
+---
+import { getRecentPosts, getAllCategories } from '../utils/posts';
+
+const recentPosts = getRecentPosts(5);
+const categories = getAllCategories();
+---
+
+<div class="col-md-4 col-xs-12">
+	<aside id="secondary" class="widget-area" role="complementary">
+		<section id="search-3" class="widget widget_search">
+			<form role="search" method="get" class="search-form" action="/search/">
+				<label>
+					<span class="screen-reader-text">Cari untuk:</span>
+					<input type="search" class="search-field" placeholder="Cari &hellip;" value="" name="q" />
+				</label>
+				<input type="submit" class="search-submit" value="Cari" />
+			</form>
+		</section>
+
+		<section id="recent-posts-3" class="widget widget_recent_entries">
+			<h2 class="widget-title">Update dari Kami</h2>
+			<ul>
+				{recentPosts.map((post) => (
+					<li>
+						<a href={`/${post.slug}/`}>{post.title}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="categories-3" class="widget widget_categories">
+			<h2 class="widget-title">Kategori</h2>
+			<ul>
+				{categories.map((cat) => (
+					<li class={`cat-item cat-item-${cat.id}`}>
+						<a href={`/category/${cat.slug}/`}>{cat.name}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	</aside>
+</div>
